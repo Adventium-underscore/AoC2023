@@ -1,4 +1,4 @@
-use std::{fs, collections::HashSet};
+use std::{fs, collections::HashSet, time};
 use regex::Regex;
 
 fn createSchematic(data: &String) -> Vec<String> {
@@ -31,11 +31,14 @@ fn findRatio(schematic: &Vec<String>, x: &usize, y: &usize, re: &Regex) -> i32 {
 }
 
 pub fn main() {
+    let start = time::Instant::now();
     let re = Regex::new(r"\d+").unwrap();
     let schematic = createSchematic(&fs::read_to_string("src/day3/Day 3 Input.txt").expect("oop"));
     let mut total = 0;
     for (y, line) in schematic.iter().enumerate() {
         total += line.match_indices('*').map(|m| findRatio(&schematic, &m.0, &y, &re)).sum::<i32>();
     }
+    let timed = time::Instant::now() - start;
     println!("{total}");
+    println!("Time taken: {timed:?}");
 }

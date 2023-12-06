@@ -1,4 +1,4 @@
-use std::{collections::HashSet, fs};
+use std::{collections::HashSet, fs, time};
 use regex::Regex;
 
 fn getCards(data: &String) -> Vec<(usize, usize)> {
@@ -14,6 +14,7 @@ fn getCards(data: &String) -> Vec<(usize, usize)> {
 }
 
 pub fn main() {
+    let start = time::Instant::now();
     let mut cards = getCards(&fs::read_to_string("src/day4/Day 4 Input.txt").unwrap());
     // let mut total = 0;
     // for i in 0..cards.len() {
@@ -28,5 +29,7 @@ pub fn main() {
         }
         acc + cards[i].1
     });
+    let timed = time::Instant::now() - start;
     println!("{total}");
+    println!("Time taken: {timed:?}");
 }

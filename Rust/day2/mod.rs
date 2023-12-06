@@ -1,4 +1,4 @@
-use std::{fs, collections::HashMap, cmp};
+use std::{fs, collections::HashMap, cmp, time};
 use regex::Regex;
 
 fn splitHand(hand: &str, re: &Regex) -> (i32, i32, i32) {
@@ -16,6 +16,7 @@ fn splitHand(hand: &str, re: &Regex) -> (i32, i32, i32) {
 }
 
 pub fn main() {
+    let start = time::Instant::now();
     let re = Regex::new(r"(\d+) (\w+)").unwrap();
     let mut games = HashMap::<i32, (i32, i32, i32)>::new();
     
@@ -27,5 +28,7 @@ pub fn main() {
         games.insert(gameID, colors);
     }
     let total:i32 = games.into_iter().map(|g| g.1.0*g.1.1*g.1.2).sum();
+    let timed = time::Instant::now() - start;
     println!("{total}");
+    println!("Time taken: {timed:?}");
 }
